@@ -1,0 +1,7 @@
+com\yourorg\livealerts\fetcher\Fetcher.class
+com\yourorg\livealerts\fetcher\EonetFetcher.class
+com\yourorg\livealerts\server\HttpServer.class
+com\yourorg\livealerts\storage\Database.class
+com\yourorg\livealerts\model\DisasterEvent.class
+com\yourorg\livealerts\Main.class
+com\yourorg\livealerts\fetcher\UsgsFetcher.class
