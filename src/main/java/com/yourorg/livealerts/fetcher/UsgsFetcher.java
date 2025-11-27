@@ -32,16 +32,16 @@ public class UsgsFetcher implements Fetcher {
             JsonObject prop = feat.getAsJsonObject("properties");
             JsonObject geom = feat.getAsJsonObject("geometry");
             DisasterEvent d = new DisasterEvent();
-            d.id = feat.get("id").getAsString();
-            d.title = prop.get("title").getAsString();
-            d.category = "earthquake";
+            d.setId(feat.get("id").getAsString());
+            d.setTitle(prop.get("title").getAsString());
+            d.setCategory("earthquake");
             JsonArray coords = geom.getAsJsonArray("coordinates");
-            d.longitude = coords.get(0).getAsDouble();
-            d.latitude = coords.get(1).getAsDouble();
-            d.date = prop.has("time") ? String.valueOf(prop.get("time").getAsLong()) : "";
-            d.source = sourceName();
-            d.url = prop.has("url") ? prop.get("url").getAsString() : API;
-            d.magnitude = prop.has("mag") && !prop.get("mag").isJsonNull() ? prop.get("mag").getAsDouble() : 0.0;
+            d.setLon(coords.get(0).getAsDouble());
+            d.setLat(coords.get(1).getAsDouble());
+            d.setDate(prop.has("time") ? String.valueOf(prop.get("time").getAsLong()) : "");
+            d.setSource(sourceName());
+            d.setUrl(prop.has("url") ? prop.get("url").getAsString() : API);
+            d.setMagnitude(prop.has("mag") && !prop.get("mag").isJsonNull() ? prop.get("mag").getAsDouble() : 0.0);
             out.add(d);
         }
         return out;

@@ -1,7 +1,9 @@
 C:\Users\LENOVO\LiveAlerts\src\main\java\com\yourorg\livealerts\fetcher\UsgsFetcher.java
 C:\Users\LENOVO\LiveAlerts\src\main\java\com\yourorg\livealerts\storage\Database.java
 C:\Users\LENOVO\LiveAlerts\src\main\java\com\yourorg\livealerts\fetcher\Fetcher.java
+C:\Users\LENOVO\LiveAlerts\src\main\java\com\yourorg\livealerts\notification\NotificationService.java
 C:\Users\LENOVO\LiveAlerts\src\main\java\com\yourorg\livealerts\server\HttpServer.java
+C:\Users\LENOVO\LiveAlerts\src\main\java\com\yourorg\livealerts\service\NotificationService.java
 C:\Users\LENOVO\LiveAlerts\src\main\java\com\yourorg\livealerts\Main.java
 C:\Users\LENOVO\LiveAlerts\src\main\java\com\yourorg\livealerts\fetcher\EonetFetcher.java
 C:\Users\LENOVO\LiveAlerts\src\main\java\com\yourorg\livealerts\model\DisasterEvent.java

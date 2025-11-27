@@ -37,6 +37,12 @@
       <version>3.41.2.1</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>jakarta.mail</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+
     <!-- Logging (slf4j simple) -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -50,6 +56,7 @@
       <artifactId>httpclient5</artifactId>
       <version>5.3</version>
     </dependency>
+    <!-- Jakarta Mail for email notifications: keep only latest version -->
   </dependencies>
 
   <build>

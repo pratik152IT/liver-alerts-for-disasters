@@ -55,7 +55,9 @@ public class Main {
         scheduler.scheduleAtFixedRate(job, 60, 60, TimeUnit.SECONDS);
 
         // start HTTP server on port 4567
-        new HttpServer(db, 4567);
+        // Create a NotificationService instance
+        com.yourorg.livealerts.service.NotificationService notificationService = new com.yourorg.livealerts.service.NotificationService();
+        HttpServer httpServer = new HttpServer(db, notificationService, 4567);
 
         // add shutdown hook
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

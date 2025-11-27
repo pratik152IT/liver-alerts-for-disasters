@@ -2,11 +2,13 @@ package com.yourorg.livealerts.server;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.Gson;
+import com.yourorg.livealerts.model.DisasterEvent;
+import com.yourorg.livealerts.service.NotificationService;
 import com.yourorg.livealerts.storage.Database;
 
 import static spark.Spark.get;
@@ -18,6 +20,13 @@ public class HttpServer {
     private final Gson gson = new Gson();
     private final NotificationService notificationService;
     private final Set<String> notifiedEventIds = new HashSet<>();
+
+    // Backwards-compatible constructor: allows callers that still use (Database, int)
+    // to compile. It creates a default NotificationService (no-arg) and delegates
+    // to the main constructor.
+    public HttpServer(Database db, int port) {
+        this(db, new NotificationService(), port);
+    }
 
     public HttpServer(Database db, NotificationService notificationService, int port) {
         this.db = db;
@@ -47,12 +56,6 @@ public class HttpServer {
                     event.setDate(rs.getString("date"));
                     event.setMagnitude(rs.getDouble("magnitude"));
                     events.add(event);
-                    
-                    // Check if this is a new event that we haven't notified about
-                    if (!notifiedEventIds.contains(event.getId())) {
-                        notifiedEventIds.add(event.getId());
-                        notificationService.notifyNewAlert(event);
-                    }
                 }
             } catch (Exception ex) {
                 System.err.println("Error retrieving events: " + ex.getMessage());
@@ -61,5 +64,47 @@ public class HttpServer {
         });
 
         get("/health", (req, res) -> "OK");
+        
+        // API endpoint to send email for a specific disaster event
+        get("/send-email", (req, res) -> {
+            String id = req.queryParams("id");
+            String source = req.queryParams("source");
+            if (id == null || source == null) {
+                res.status(400);
+                return "Missing id or source parameter";
+            }
+            DisasterEvent event = null;
+            try (ResultSet rs = db.listFiltered(null, source)) {
+                while (rs.next()) {
+                    if (id.equals(rs.getString("id"))) {
+                        event = new DisasterEvent();
+                        event.setId(rs.getString("id"));
+                        event.setTitle(rs.getString("title"));
+                        event.setCategory(rs.getString("category"));
+                        event.setLat(rs.getDouble("latitude"));
+                        event.setLon(rs.getDouble("longitude"));
+                        event.setSource(rs.getString("source"));
+                        event.setUrl(rs.getString("url"));
+                        event.setDate(rs.getString("date"));
+                        event.setMagnitude(rs.getDouble("magnitude"));
+                        break;
+                    }
+                }
+            } catch (Exception ex) {
+                res.status(500);
+                return "Error retrieving event: " + ex.getMessage();
+            }
+            if (event == null) {
+                res.status(404);
+                return "Event not found";
+            }
+            try {
+                notificationService.notifyNewAlert(event);
+                return "Email sent for event: " + event.getTitle();
+            } catch (Exception ex) {
+                res.status(500);
+                return "Failed to send email: " + ex.getMessage();
+            }
+        });
     }
 }
