@@ -50,6 +50,42 @@ Provides endpoints to:
 ---
 
 ## 🗂️ Project Structure
+liver-alerts-for-disasters/
+│
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/
+│               └── yourorg/
+│                   └── livealerts/
+│                       ├── Main.java
+│                       │
+│                       ├── fetcher/
+│                       │   ├── Fetcher.java
+│                       │   ├── EonetFetcher.java
+│                       │   └── UsgsFetcher.java
+│                       │
+│                       ├── model/
+│                       │   └── DisasterEvent.java
+│                       │
+│                       ├── server/
+│                       │   └── HttpServer.java
+│                       │
+│                       ├── service/
+│                       │   └── NotificationService.java
+│                       │
+│                       └── storage/
+│                           └── Database.java
+│
+├── data/
+│   └── livealerts.db      ← SQLite database (auto-created)
+│
+├── pom.xml                ← Maven dependencies & build config
+├── Dockerfile             ← Containerization for Render / Docker
+└── README.md              ← Documentation
+
+
+
 
 
 
