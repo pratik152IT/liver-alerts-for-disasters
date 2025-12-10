@@ -54,10 +54,15 @@ public class Main {
         // schedule: run every 60 seconds (first run after 60s)
         scheduler.scheduleAtFixedRate(job, 60, 60, TimeUnit.SECONDS);
 
-        // start HTTP server on port 4567
-        // Create a NotificationService instance
-        com.yourorg.livealerts.service.NotificationService notificationService = new com.yourorg.livealerts.service.NotificationService();
-        HttpServer httpServer = new HttpServer(db, notificationService, 4567);
+        // Render-safe port handling
+        int renderPort = System.getenv("PORT") != null
+                ? Integer.parseInt(System.getenv("PORT"))
+                : 4567;  // default for local dev
+
+        // start HTTP server on correct port
+        com.yourorg.livealerts.service.NotificationService notificationService =
+                new com.yourorg.livealerts.service.NotificationService();
+        HttpServer httpServer = new HttpServer(db, notificationService, renderPort);
 
         // add shutdown hook
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
