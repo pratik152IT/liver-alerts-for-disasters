@@ -78,14 +78,8 @@ liver-alerts-for-disasters/
 │                           └── Database.java
 │
 ├── data/
-│   └── livealerts.db      ← SQLite database (auto-created)
+│   └── livealerts.db        # SQLite DB (auto-generated)
 │
-├── pom.xml                ← Maven dependencies & build config
-├── Dockerfile             ← Containerization for Render / Docker
-└── README.md              ← Documentation
-
-
-
-
-
-
+├── pom.xml                  # Maven dependencies & build config
+├── Dockerfile               # Containerization config for Render/Docker
+└── README.md                # Documentation
